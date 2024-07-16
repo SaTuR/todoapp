@@ -4,6 +4,43 @@
 {{super() }} Index
 {% endblock %}
 
+{% block usuario %}
+{{session['name']}}
+{% endblock %}
+
 {% block content %}
-<p>Estas en la pagina index</p>
+<br>
+<div class="container">
+    <form method="post">
+        <input type="text" name="name">
+        <button type="submit" class="btn btn-primary">Agregar</button>
+    </form>
+</div>
+
+<br>
+<div class="container">
+    <table class="table table-striped">
+        <tr>
+          <th>Id</th>
+          <th>Nombre</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+        {% for todo in lista_tareas %}
+        <tr>
+          <td>{{todo.id}}</td>
+          <td>{{todo.name}}</td>
+          <td>{{todo.state}}</td>
+          <td>
+            <a href="{{ url_for('update', id=todo.id)  }}">
+                <button type="button" class="btn btn-success">Cambiar Estado</button>
+            </a>
+            <a href="{{ url_for('delete', id=todo.id)  }}">
+                <button type="button" class="btn btn-danger">Eliminar</button>
+            </a>
+          </td>
+        </tr>
+        {% endfor %}
+      </table>
+</div>
 {% endblock %}

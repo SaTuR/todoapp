@@ -27,7 +27,7 @@ with app.app_context():
 @app.route("/")
 def index():
     if session:
-        return render_template('index.html')
+        return render_template('index.html',session=session)
     else:
         return redirect(url_for('login'))
 
@@ -55,8 +55,9 @@ def delete_task():
 def login():
     if request.method == 'POST':
         # valida usuario y clave
-        session['nombre'] = 'Jose Cordova'
-        return render_template('index.html')
+        session['name'] = 'Nelson Sanchez'
+        session['email'] = 'nelsonsanchezestrada@gmail.com'
+        return redirect(url_for('index'))
     else:
         return render_template('login.html')
 
