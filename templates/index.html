@@ -29,13 +29,13 @@
         {% for todo in lista_tareas %}
         <tr>
           <td>{{todo.id}}</td>
-          <td>{{todo.name}}</td>
-          <td>{{todo.state}}</td>
+          <td>{{todo.nombre}}</td>
+          <td>{{todo.estado}}</td>
           <td>
-            <a href="{{ url_for('update', id=todo.id)  }}">
+            <a href="{{ url_for('update_task', id=todo.id)  }}">
                 <button type="button" class="btn btn-success">Cambiar Estado</button>
             </a>
-            <a href="{{ url_for('delete', id=todo.id)  }}">
+            <a href="{{ url_for('delete_task', id=todo.id)  }}">
                 <button type="button" class="btn btn-danger">Eliminar</button>
             </a>
           </td>
