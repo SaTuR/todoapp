@@ -1,11 +1,43 @@
-from flask import Flask
+from flask import Flask,render_template,session, redirect,url_for, request
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 
+app.secret_key = "Saturnino"
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///tododb.sqlite"
+
+db = SQLAlchemy(app)
+# base de datos
+class Usuario(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.Text, nullable=False)
+    password = db.Column(db.Text, nullable=False)
+    nombre = db.Column(db.Text, nullable=False)    
+
+class Tareas(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    nombre = db.Column(db.Text, nullable=False)
+    estado = db.Column(db.Text, nullable=False)
+    email = db.Column(db.Text, nullable=False)
+ 
+with app.app_context():
+    db.create_all()
+
+
 @app.route("/")
-def hello_world():
-    pass
+def index():
+    if session:
+        return render_template('index.html')
+    else:
+        return redirect(url_for('login'))
+
+
 # Rutas Seguras
+@app.route("/change_password")
+def change_password():
+    session.clear()
+    return redirect(url_for('login'))
+
 @app.route("/add")
 def add_task():
     pass
@@ -19,21 +51,25 @@ def delete_task():
     pass
 
 #rutas No seguras 
-@app.route("/login")
+@app.route("/login", methods=['GET','POST'])
 def login():
-    pass
+    if request.method == 'POST':
+        # valida usuario y clave
+        session['nombre'] = 'Jose Cordova'
+        return render_template('index.html')
+    else:
+        return render_template('login.html')
+
 
 @app.route("/logout")
 def logout():
-    pass
+    session.clear()
+    return redirect(url_for('login'))
+
 
 @app.route("/register")
 def register():
     pass
-
-
-
-
 
 
 
